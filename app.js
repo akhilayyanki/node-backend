@@ -1,32 +1,21 @@
-const http = require('http'); 
-
 const express = require('express');
+
+const bodyParser = require('body-parser');
 
 const app = express();
 
-//executed for every request
-// express uses the 'startswith' operator for path
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
 
-app.use('/',(req,res,next)=>{
-    console.log('zero middlewaar');
-    next();
+app.use(bodyParser.urlencoded({extended : false}));
 
-});
+app.use(adminRoutes);
+app.use(shopRoutes);
 
-app.use('/add-product',(req,res,next)=>{
-    console.log('first middlewaar');
-    res.send('<h1>Its the product page!</h1>');
-});
 
-// a next should be directed at the same route but different need.
-app.use('/',(req,res,next)=>{
-    console.log('second middlewaar');
-    res.send('<h1>Using using express.js!!</h1>');
+app.use((req,res, next) => {
+    res.status(404).send('<h1>Page not found</h1>');
 });
 
 
-
-
-const server = http.createServer(app); 
-
-server.listen(3000);
+app.listen(3000);
