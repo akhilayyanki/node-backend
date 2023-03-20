@@ -1,3 +1,3 @@
 # node-backend
 
-Codes for node-js Udemy course
+This repo contains my practice for backend technologies, majorly on node.js
