@@ -9,15 +9,14 @@ app.set('view engine','pug');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const defaultRoute = require('./contollers/404');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/admin', adminRoutes.routes);
+app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
-app.use((req, res, next) => {
-    res.status(404).render('404',{pageTitle:"Page Not Found"});
-});
+app.use(defaultRoute.notFound);
 
 app.listen(3000);
