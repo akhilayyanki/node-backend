@@ -6,14 +6,18 @@ const rootDir = require('../util/path');
 
 const router = express.Router();
 
-const productsController = require('../contollers/products');
+const adminController = require('../contollers/admin');
 
 // /admin/add-product => GET
-router.get('/add-product', productsController.getAddProduct);
+router.get('/add-product', adminController.getAddProduct);
 
 // /admin/add-product => POST
-router.post('/add-product', productsController.postProduct);
+router.post('/add-product', adminController.postProduct);
 
-module.exports = router
+// /admin/products => GET
+router.get('/products',adminController.getProducts);
+
+
+module.exports = router;
 
 
