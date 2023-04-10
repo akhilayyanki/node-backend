@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+const cyrpto = require('crypto');
+
 
 module.exports = class Product{
     constructor(title,imageUrl,description,price){
@@ -10,6 +12,7 @@ module.exports = class Product{
     }
 
     save(){
+        this.id = crypto.randomUUID();
         const p =path.join(require.main.filename,"..","data","products.json");
         console.log('path ',p);
         fs.readFile(p,(err, fileContent) => {
@@ -25,6 +28,10 @@ module.exports = class Product{
     }
 
     static fetchAll(callback){
+        this.getProductsFromFile(callback);
+    }
+
+    static getProductsFromFile(callback){
         const p =path.join(path.dirname(require.main.filename),"data","products.json");
         let products=[];
         fs.readFile(p,(err,fileContent)=> {
@@ -35,6 +42,13 @@ module.exports = class Product{
 
         });
         return products;
+    }
+
+    static findByID(id,cb){
+        this.getProductsFromFile(products=>{
+            const product = products.find(p => p.id===id);
+            cb(product);
+        });
     }
 
 }
