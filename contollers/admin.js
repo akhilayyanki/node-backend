@@ -1,16 +1,17 @@
 const Product = require('../models/product')
 
-exports.getAddProduct = (req, res, next) => {
+exports.getAddProduct = (req, res, next) => {       
     const products = Product.fetchAll( products =>{
-    res.render('admin/add-product',{
+    res.render('admin/edit-product',{
       prods : products,
-      pageTitle: "Add product page", 
+      pageTitle: "Add Product", 
+      editing: false,
       path:"/",
       hasProducts:products.length>0,
       activeShop: true,
       productCSS: true
-});
-});
+        });
+    });
 };
 
 exports.postProduct = (req, res, next) => {
@@ -33,3 +34,17 @@ exports.getProducts = (req,res,next) =>{
       });
     });
 }
+
+exports.getEditProduct = (req, res, next) => {  
+    const editing = req.query.edit   
+    const prodId = req.params.productId;
+    Product.findByID(prodId, (product)=>{
+        res.render('admin/edit-product',{
+            pageTitle: "Edit Product", 
+            path:"/admin/edit-product",
+            editing: editing,
+            product: product
+        });
+    })
+
+};
