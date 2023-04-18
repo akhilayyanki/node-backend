@@ -18,11 +18,11 @@
                                 alt="<%= product.title %>">
                         </div>
                         <div class="card__content">
-                            <h2 class="product__price">$<%= product.description %></h2>
+                            <h2 class="product__price">$<%= product.price %></h2>
                             <p class="product__description"><%= product.description %></p>
                         </div>
                         <div class="card__actions">
-                            <button class="btn">Edit</button>
+                            <a href="edit-product/<%=product.id%>?edit=true" class="btn">Edit</a>
                             <button class="btn">Delete</button>
                         </div>
                     </article>

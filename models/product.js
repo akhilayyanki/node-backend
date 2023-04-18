@@ -4,7 +4,8 @@ const cyrpto = require('crypto');
 
 
 module.exports = class Product{
-    constructor(title,imageUrl,description,price){
+    constructor(id,title,imageUrl,description,price){
+        this.id=id;
         this.title = title;
         this.imageUrl = imageUrl;
         this.description = description;
@@ -12,19 +13,27 @@ module.exports = class Product{
     }
 
     save(){
-        this.id = crypto.randomUUID();
-        const p =path.join(require.main.filename,"..","data","products.json");
-        console.log('path ',p);
-        fs.readFile(p,(err, fileContent) => {
-            let products = [];
-            if(!err)
-                products = JSON.parse(fileContent);
-            products.push(this);
-            fs.writeFile(p,JSON.stringify(products),(err)=>{
-                console.log(err);
-            });
-        })
-        
+        this.constructor.getProductsFromFile(products =>{
+            if(this.id){
+                const existingProductIndex = products.findIndex(prod => prod.id===this.id);
+                const updatedProducts =[...products]
+                updatedProducts[existingProductIndex] = this;
+                const p =path.join(path.dirname(require.main.filename),"data","products.json");
+                fs.writeFile(p,JSON.stringify(updatedProducts),(err)=>{
+                    console.log(err);
+                });
+            }
+            else{
+                this.id = crypto.randomUUID();
+                products.push(this);
+
+                const p =path.join(path.dirname(require.main.filename),"data","products.json");
+                fs.writeFile(p,JSON.stringify(products),(err)=>{
+                    console.log(err);
+                });
+             }
+         }
+        );
     }
 
     static fetchAll(callback){

@@ -22,9 +22,12 @@
             </div>
             <div class="form-control">
                 <label for="description">Description</label>
-                <textarea name="description" id="description" rows="6"><% if(editing) {%><%=product.description%><%}%>"</textarea>
+                <textarea name="description" id="description" rows="6"><% if(editing) {%><%=product.description%><%}%></textarea>
             </div>
             <button class="btn" type="submit"><% if(editing) {%> Update Product<% } else {%>Add Product <%} %></button>
+            <%if(editing) {%>
+                <input type="hidden" value="<%=product.id%>" name="productId">
+            <%}%>
         </form>
     </main>
 <%- include('../includes/end.ejs') %>
